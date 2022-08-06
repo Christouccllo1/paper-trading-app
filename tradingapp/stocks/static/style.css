@@ -1,3 +1,7 @@
 body{
-    background-color: aqua;
+    background-color: blue;
+}
+
+.stocks{
+    margin: 3vw;
 }
