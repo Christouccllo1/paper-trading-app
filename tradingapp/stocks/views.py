@@ -17,3 +17,6 @@ def home(request):
         res = "Error"
     print(stocks)
     return render(request,'home.html',{"api": stocks})
+
+def portfolio(request):
+    return render(request,"portfolio.html", {})

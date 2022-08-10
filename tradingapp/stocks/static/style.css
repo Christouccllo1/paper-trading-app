@@ -1,7 +1,20 @@
 body{
-    background-color: blue;
+    background-color: aliceblue;
 }
 
 .stocks{
     margin: 3vw;
+}
+
+th{
+    color: aqua;
+}
+
+td a {
+    text-decoration: none;
+    color: black;
+    background-color: aliceblue;
+    padding: 1vw 1.5vw;
+    margin: 1vw;
+
 }
