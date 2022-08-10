@@ -1,5 +1,8 @@
+from pyexpat.errors import messages
 from django.shortcuts import render
 import requests, json 
+from .forms import StockForm
+from django.contrib import messages
 # Create your views here.
 def home(request):
     #pk_4c68895f25a94a97ba943173f0aa9638
@@ -17,6 +20,15 @@ def home(request):
         res = "Error"
     print(stocks)
     return render(request,'home.html',{"api": stocks})
+
+def add_stock(request):
+    if request.method=="POST":
+        form = StockForm(request.POST or None)
+        if(form.is_valid()):
+            form.save()
+            messages.success(request, "stock is added to portfolio")
+    return redirect("home")
+
 
 def portfolio(request):
     return render(request,"portfolio.html", {})
