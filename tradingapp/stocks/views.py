@@ -1,5 +1,5 @@
 from pyexpat.errors import messages
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests, json 
 from .forms import StockForm
 from django.contrib import messages
@@ -18,7 +18,7 @@ def home(request):
         stocks = res
     except Exception as e:
         res = "Error"
-    print(stocks)
+    
     return render(request,'home.html',{"api": stocks})
 
 def add_stock(request):

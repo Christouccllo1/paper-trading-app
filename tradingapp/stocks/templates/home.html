@@ -20,7 +20,12 @@
                 <td style="text-align:center;">{{stock.symbol}}</td>
                 <td style="text-align:center;">${{stock.latestPrice}}</td>
                 <td style="text-align:center;">${{stock.previousClose}}</td>
-                <td style="text-align:center;"><a href="#" class="btn btn-primary disabled" tabindex="-1" role="button" aria-disabled="true">Add</a></td>
+                <td style="text-align:center;">
+                    <form action="{%url 'add_stock'%}" method="POST">
+                        {% csrf_token %} 
+                        <button type="submit" placeholder = 'add' value={{stock.symbol}} name = "ticker" class="btn btn-primary">add</button>
+                    </form>
+                </td>
             </tr>
 
             {% endfor %}
