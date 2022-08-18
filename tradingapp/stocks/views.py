@@ -46,3 +46,9 @@ def portfolio(request):
             res = e
         
     return render(request,"portfolio.html", {"stocks":stocks})
+
+def delete(request, stock_id):
+    item = Stock.objects.get(pk=stock_id)
+    item.delete()
+    messages.success(request, "stock is removed")
+    return redirect("portfolio")
