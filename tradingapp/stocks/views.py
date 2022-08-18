@@ -1,8 +1,10 @@
 from pyexpat.errors import messages
+from tkinter import E
 from django.shortcuts import render, redirect
 import requests, json 
 from .forms import StockForm
 from django.contrib import messages
+from .models import Stock 
 # Create your views here.
 def home(request):
     #pk_4c68895f25a94a97ba943173f0aa9638
@@ -31,4 +33,16 @@ def add_stock(request):
 
 
 def portfolio(request):
-    return render(request,"portfolio.html", {})
+    ticker=Stock.objects.all()
+    stocks=[]
+    for tick in ticker:
+        api_req=requests.get("https://cloud.iexapis.com/stable/stock/"+ str(tick) + "/quote?token=pk_4c68895f25a94a97ba943173f0aa9638");
+        try:
+            dict={}
+            res=json.loads(api_req.content)
+            dict.update({"id":tick.id,"ticker":res})
+            stocks.append(dict)
+        except Exception as e:
+            res = e
+        
+    return render(request,"portfolio.html", {"stocks":stocks})
