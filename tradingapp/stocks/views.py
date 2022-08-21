@@ -19,7 +19,7 @@ def home(request):
             res = json.loads(api_req.content)
         except Exception as e:
             res = "Error"
-        return render(request, 'ticker.html', {'api':res})
+        return render(request, 'Ticker.html', {'api':res})
     else:
     
         stocks = []
