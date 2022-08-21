@@ -1,0 +1,21 @@
+{% extends 'Base.html' %}
+
+{% block content%}
+
+<div class="card">
+    <h5 class="card-header">{{api.companyName}}</h5>
+    <div class="card-body">
+      <h5 class="card-title">Latest Price : ${{api.latestPrice}}</h5>
+      <p class="card-text">Previos Close : ${{api.previousClose}}</p>
+      <p class="card-text">Week 52 High : ${{api.week52High}}</p>
+      
+      <form action={%url 'add_stock'%} method= "POST">
+        {% csrf_token %}
+        <button type="submit" placeholder="Buy" value={{api.symbol}} name ="ticker" class="btn btn-primary"/>Buy</button>
+      </form>
+    </div>
+  </div>
+
+    
+
+{% endblock %}

@@ -6,6 +6,7 @@
             <th scope="col">Company Name</th>
             <th scope="col">Latest Price</th>
             <th scope="col">52 Week High</th>
+            <th scope="col">Quantity</th>
             <th scope="col">Action</th>
         </tr>
     </thead>
@@ -15,6 +16,7 @@
                 <td>{{stock.ticker.companyName}}</td>
                 <td>{{stock.ticker.latestPrice}}</td>
                 <td>{{stock.ticker.week52High}}</td>
+                <td>{{stock.quantity}}</td>
                 <td><a class="btn btn-primary" href="{% url 'delete' stock.id %}" role="button">delete</a></td>
             </tr>
         {% endfor %}
