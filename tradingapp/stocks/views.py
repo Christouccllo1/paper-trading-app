@@ -41,7 +41,7 @@ def home(request):
             "labels" : mark_safe(json.dumps(labels)),
             "prices" : mark_safe(json.dumps(prices))
         }
-        return render(request, 'Ticker.html', rs)
+        return render(request, 'ticker.html', rs)
     else:
     
         stocks = []
