@@ -1,20 +1,59 @@
-{% extends 'Base.html' %}
+{% extends 'base.html' %}
+
+{% block js%}
+
+<script>
+  console.log("hello")
+  chart_labels = JSON.parse('{{labels}}')
+  chart_date = JSON.parse('{{date}}')
+  chart_prices = JSON.parse('{{prices}}')
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: chart_labels,
+          datasets: [{
+              label: "Intraday chart for {{api.symbol}}, date : " + chart_date,
+              data: chart_prices,
+              borderColor: 'teal'
+              
+          }]
+      },
+      options: {
+          maintainAspectRatio: false,
+          scales: {
+              y: {
+                  beginAtZero: false
+              }
+          }
+      }
+  });
+</script>
+
+{% endblock %}
 
 {% block content%}
 
-<div class="card">
+<div class="card" >
     <h5 class="card-header">{{api.companyName}}</h5>
     <div class="card-body">
       <h5 class="card-title">Latest Price : ${{api.latestPrice}}</h5>
       <p class="card-text">Previos Close : ${{api.previousClose}}</p>
       <p class="card-text">Week 52 High : ${{api.week52High}}</p>
+      <div style = "height: 400px; margin: 30px">
+        <canvas id="myChart"></canvas>
+      </div>
       
+
       <form action={%url 'add_stock'%} method= "POST">
         {% csrf_token %}
         <button type="submit" placeholder="Buy" value={{api.symbol}} name ="ticker" class="btn btn-primary"/>Buy</button>
       </form>
     </div>
+  
   </div>
+
+
 
     
 

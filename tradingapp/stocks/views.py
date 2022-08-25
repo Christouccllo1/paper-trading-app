@@ -5,6 +5,7 @@ import requests, json
 from .forms import StockForm
 from django.contrib import messages
 from .models import Stock 
+from django.utils.safestring import mark_safe
 # Create your views here.
 
     #pk_4c68895f25a94a97ba943173f0aa9638
@@ -15,16 +16,36 @@ def home(request):
         ticker = request.POST['ticker']
 
         api_req = requests.get("https://cloud.iexapis.com/stable/stock/"+ ticker + "/quote?token=pk_4c68895f25a94a97ba943173f0aa9638");
+        api_chart = requests.get("https://cloud.iexapis.com/stable/stock/" + ticker + "/intraday-prices?chartInterval=10&token=pk_4c68895f25a94a97ba943173f0aa9638")
+    
         try:
             res = json.loads(api_req.content)
+            res_chart = json.loads(api_chart.content)
         except Exception as e:
             res = "Error"
-        return render(request, 'Ticker.html', {'api':res})
+        
+        labels = []
+        prices = []
+        
+        for i in res_chart[1:]:
+            labels.append(i["label"])
+            if(i["average"] != None):
+                prices.append(i["average"])
+
+        
+             
+            
+        rs = {
+            "api": res,
+            "date": mark_safe(json.dumps(res_chart[0]['date'])),
+            "labels" : mark_safe(json.dumps(labels)),
+            "prices" : mark_safe(json.dumps(prices))
+        }
+        return render(request, 'Ticker.html', rs)
     else:
     
         stocks = []
-        api_req = requests.get(
-            "https://cloud.iexapis.com/stable/stock/market/list/mostactive?token=pk_4c68895f25a94a97ba943173f0aa9638")
+        api_req = requests.get("https://cloud.iexapis.com/stable/stock/market/collection/list?collectionName=mostactive&token=pk_4c68895f25a94a97ba943173f0aa9638")
         try:
             res = json.loads(api_req.content)
             stocks = res
