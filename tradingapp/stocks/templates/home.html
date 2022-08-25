@@ -16,7 +16,12 @@
             {% for stock in api%}
 
             <tr>
-                <td>{{stock.companyName}}</td>
+                <td>
+                    <form action="{% url 'home' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" value={{stock.symbol}} name="ticker" class="btn btn-dark">{{stock.companyName}}</button>
+                    </form>
+                </td>
                 <td style="text-align:center;">{{stock.symbol}}</td>
                 <td style="text-align:center;">${{stock.latestPrice}}</td>
                 <td style="text-align:center;">${{stock.previousClose}}</td>
